@@ -1,4 +1,4 @@
-# Best practice for mRNA microarry
+# Best practice for mRNA microarray
 
  Note : Please **don't use it** if you are not the fan of our [biotrainee](http://www.bio-info-trainee.com/), Thanks.
 
