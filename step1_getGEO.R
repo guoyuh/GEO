@@ -16,7 +16,7 @@ if(F){
   gset <- getGEO('GSE42872', destdir=".",
                  AnnotGPL = F,
                  getGPL = F)
-  save(gset,'GSE42872.gset.Rdata')
+  save(gset,file='GSE42872.gset.Rdata')
 }
 load('GSE42872_eSet.Rdata')
 b = eSet[[1]]
