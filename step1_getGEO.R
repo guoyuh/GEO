@@ -13,10 +13,10 @@ rm(list=ls())
 
 if(F){
   library(GEOquery)
-  gset <- getGEO('GSE42872', destdir=".",
+  eSet <- getGEO('GSE42872', destdir=".",
                  AnnotGPL = F,
                  getGPL = F)
-  save(gset,file='GSE42872_eSet.Rdata')
+  save(eSet,file='GSE42872_eSet.Rdata')
 }
 load('GSE42872_eSet.Rdata')
 b = eSet[[1]]
