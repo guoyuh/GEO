@@ -24,7 +24,8 @@ dim(exprSet)
 colnames(phe)
 colnames(phe)=c('event','grade','node','size','time')
 phe = as.data.frame(apply(phe,2,as.numeric))
-phe$size=ifelse(phe$size>2,'big','small')
+boxplot(phe$size)
+phe$size=ifelse(phe$size>median(phe$size),'big','small')
 
 library(survival)
 library(survminer)
@@ -52,7 +53,7 @@ table(phe$CBX4)
 ggsurvplot(survfit(Surv(time, event)~CBX4, data=phe), conf.int=F, pval=TRUE)
 phe$CBX6=ifelse(exprSet['CBX6',]>median(exprSet['CBX6',]),'high','low')
 table(phe$CBX6)
-ggsurvplot(survfit(Surv(time, event)~CBX4, data=phe), conf.int=F, pval=TRUE)
+ggsurvplot(survfit(Surv(time, event)~CBX6, data=phe), conf.int=F, pval=TRUE)
 ## 批量生存分析 使用  logrank test 方法
 mySurv=with(phe,Surv(time, event))
 log_rank_p <- apply(exprSet , 1 , function(gene){
