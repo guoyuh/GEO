@@ -11,12 +11,22 @@ BiocInstaller::biocLite("jmzeng1314/biotrainee")
 library(biotrainee)
 ```
 
-But if you are in China, you should use the codes below:
+But if you are in **China**, you should use the codes below:
 
 ```r
-install.packages("devtools", repos="https://mirrors.tuna.tsinghua.edu.cn/CRAN/")
+options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
+install.packages("devtools",
+			   repos="https://mirrors.tuna.tsinghua.edu.cn/CRAN/")
 library(devtools) 
 source("https://bioconductor.org/biocLite.R") 
+options(BioC_mirror="https://mirrors.ustc.edu.cn/bioc/")  
+BiocInstaller::biocLite(c('airway','DESeq2','edgeR','limma')) 
+BiocInstaller::biocLite(c('ALL','CLL','pasilla','clusterProfiler')) 
+
+
+library(devtools) 
+source("https://bioconductor.org/biocLite.R") 
+options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
 options(BioC_mirror="https://mirrors.ustc.edu.cn/bioc/")  
 BiocInstaller::biocLite('org.Hs.eg.db')
 install.packages("remotes",repos="https://mirror.lzu.edu.cn/CRAN/")
@@ -80,6 +90,20 @@ Annotation for the significantly changed genes, over-representation test or GSEA
 ![KEGG_GSEA](http://www.bio-info-trainee.com/wp-content/uploads/2018/07/kegg_up_down_gsea.png)
 
 ![KEGG-enrichment](http://www.bio-info-trainee.com/wp-content/uploads/2018/07/kegg_up_down.png)
+
+### The videos tutorials :
+
+All the videos are uploaded in YouTube: https://www.youtube.com/channel/UC67sImqK7V8tSWHMG8azIVA/videos 
+
+如果你在中国，你可能会喜欢B站： https://www.bilibili.com/read/cv719181 ，视频链接： https://www.bilibili.com/video/av26731585/
+
+### 番外
+
+其实不止是针对转录组表达芯片的数据分析教材，还有转录组数据处理流程，希望你可以仔细看，还有批量生存分析等各种其它统计分析方法我也会慢慢添加。
+
+主要是根据大家的需求啦，希望大家多多反馈和提问哈！
+
+
 
 ### 最重要的是：
 
