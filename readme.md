@@ -83,13 +83,27 @@ and volcano plot as below:
 
 ![](http://www.bio-info-trainee.com/wp-content/uploads/2018/07/volcano.png)
 
-### Last step :
+### Then step4 :
 
 Annotation for the significantly changed genes, over-representation test or GSEA for GO/KEGG/biocarta/rectome/MsigDB and so on. 
 
 ![KEGG_GSEA](http://www.bio-info-trainee.com/wp-content/uploads/2018/07/kegg_up_down_gsea.png)
 
 ![KEGG-enrichment](http://www.bio-info-trainee.com/wp-content/uploads/2018/07/kegg_up_down.png)
+
+### Step5: survival analysis
+
+KM and cox 
+
+### Step6: GSEA for Molecular Signatures Database (MSigDB) 
+
+
+
+### Step7: GSVA for Molecular Signatures Database (MSigDB) 
+
+
+
+
 
 ### The videos tutorials :
 
