@@ -25,12 +25,29 @@ b = eSet[[1]]
 # GPL16570
 # BiocInstaller::biocLite('pd.mogene.2.0.st')
 library(pd.mogene.2.0.st)
-ls('package:pd.mogene.2.0.st')
+
+if(F){
+  library(GEOquery)
+  #Download GPL file, put it in the current directory, and load it:
+  gpl <- getGEO('GPL16570', destdir=".")
+  colnames(Table(gpl)) ## [1] 41801    19
+  head(Table(gpl)[,c(1,9)]) ## you need to check this , which column do you need
+  probe2gene=Table(gpl)[,c(1,9)]
+  save(probe2gene,file='probe2gene.Rdata')
+}
+
+load(file='probe2gene.Rdata')
+library(stringr)
+probe2gene$gene=str_split(probe2gene$gene_assignment,' // ',simplify = T)[,2]
+
 raw_exprSet=exprs(b) 
 phe=pData(b)
 library(stringr)
-group_list= str_split(as.character(phe$source_name_ch1),' ',simplify = T)[,1]
-save(raw_exprSet,group_list,
+tmp1= str_split(as.character(phe$title),',',simplify = T)[,1]
+tmp2= str_split(as.character(phe$title),',',simplify = T)[,2]
+group_list=paste0(str_split(tmp1,' ',simplify = T)[,1],gsub(' ','_',tmp2))
+ 
+save(group_list,probe2gene,
      file='GSE57830_raw_exprSet.Rdata')
 
 
