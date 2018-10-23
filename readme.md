@@ -4,11 +4,19 @@
 
 ### Install required packages  by the codes below:
 
+R包是基础！
+
 ```r
+options()$BioC_mirror
+options()$repos
+install.packages('shiny')
+install.packages(c("devtools","ggplot2","pheatmap"))
+install.packages(c("ggpubr","ggstatsplot"))
+
 source("http://bioconductor.org/biocLite.R") 
-install.packages('devtools')
-BiocInstaller::biocLite("jmzeng1314/biotrainee")
-library(biotrainee)
+library('BiocInstaller') 
+biocLite(c('airway','DESeq2','edgeR','limma')) 
+biocLite('clusterProfiler')
 ```
 
 But if you are in **China**, you should use the codes below:
@@ -29,14 +37,15 @@ source("https://bioconductor.org/biocLite.R")
 options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
 options(BioC_mirror="https://mirrors.ustc.edu.cn/bioc/")  
 BiocInstaller::biocLite('org.Hs.eg.db')
-install.packages("remotes",repos="https://mirror.lzu.edu.cn/CRAN/")
-BiocInstaller::biocLite("jmzeng1314/biotrainee")
+install.packages("remotes",repos="https://mirror.lzu.edu.cn/CRAN/") 
 install.packages("pheatmap",repos="https://mirror.lzu.edu.cn/CRAN/")
 ```
 
 It will install many other packages for you automately, such as : `ALL, CLL, pasilla, airway ,limma，DESeq2，clusterProfiler  ` , that's why it will take a long time to finish if all of these packages are not installed before in your computer. 
 
 ### Then run  step1 :
+
+数据是灵魂！
 
 It always not very easy to download data if you are in China, so I also upload the   file `GSE42872_raw_exprSet.Rdata` , you can load it directly. 
 
@@ -49,7 +58,7 @@ if(F){
   save(gset,'GSE42872.gset.Rdata')
 }
 load('GSE42872_eSet.Rdata')
-b = eSet[[1]]
+b = eSet[[1]] # 看清楚，某些GSE数据集有多个平台，注意挑选
 raw_exprSet=exprs(b) 
 group_list=c(rep('control',3),rep('case',3))
 save(raw_exprSet,group_list,
@@ -58,6 +67,8 @@ save(raw_exprSet,group_list,
 ```
 
 ### Then step2: 
+
+高质量的数据是保障！
 
 Try to understand my codes, how did I filter the probes by the annotation of each microarry, and how I check the group information for the different samples in each experiment.
 
@@ -73,6 +84,8 @@ Please ensure that you do run those codes by yourself !!!
 
 ### Then step3:
 
+差异分析是核心流程
+
 Normally we will do differential expression analysis for the microarray, and LIMMA is one of the best method, so I just use it. If the expression matrix(raw counts ) comes from mRNA-seq, you can also choose DESeq based on negative binomial (NB) distributions or baySeq and EBSeq.
 
 Once DEG finished, we can choose top N genes for heatmap as below:
@@ -85,6 +98,8 @@ and volcano plot as below:
 
 ### Then step4 :
 
+数据库的注释是升华！
+
 Annotation for the significantly changed genes, over-representation test or GSEA for GO/KEGG/biocarta/rectome/MsigDB and so on. 
 
 ![KEGG_GSEA](http://www.bio-info-trainee.com/wp-content/uploads/2018/07/kegg_up_down_gsea.png)
@@ -93,15 +108,19 @@ Annotation for the significantly changed genes, over-representation test or GSEA
 
 ### Step5: survival analysis
 
+生存分析是补充！
+
 KM and cox 
 
 ### Step6: GSEA for Molecular Signatures Database (MSigDB) 
 
-
+算法是亮点
 
 ### Step7: GSVA for Molecular Signatures Database (MSigDB) 
 
+算法是门槛
 
+### 更多其它例子
 
 
 
