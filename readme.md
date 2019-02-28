@@ -1,22 +1,25 @@
 # 表达矩阵分析大全
 
- Note : Please **don't use it** if you are not the fan of our [biotrainee](http://www.bio-info-trainee.com/), Thanks.
+Note : Please **don't use it** if you are not the fan of our [biotrainee](http://www.bio-info-trainee.com/), Thanks.
 
 ### 来龙去脉
 
 GEO数据库挖掘系列知识分享课程，于2016年首发于生信菜鸟团博客：http://www.bio-info-trainee.com/2087.html
 
+配套教学视频在B站：https://www.bilibili.com/video/av26731585/ 
+
 早期目录如下：
-第一讲：GEO，表达芯片与R   
-第二讲：从GEO下载数据得到表达量矩阵 
-第三讲：对表达量矩阵用GSEA软件做分析  
-第四讲：根据分组信息做差异分析   
-第五讲：对差异基因结果做GO/KEGG超几何分布检验富集分析
-第六讲：指定基因分组boxplot指定基因list画热图   
-第七讲：根据差异基因list获取string数据库的PPI网络数据
-第八讲：PPI网络数据用R或者cytoscape画网络图
-第九讲：网络图的子网络获取 
-第十讲：hug genes如何找
+
+- 第一讲：GEO，表达芯片与R
+- 第二讲：从GEO下载数据得到表达量矩阵
+- 第三讲：对表达量矩阵用GSEA软件做分析
+- 第四讲：根据分组信息做差异分析
+- 第五讲：对差异基因结果做GO/KEGG超几何分布检验富集分析
+- 第六讲：指定基因分组boxplot指定基因list画热图
+- 第七讲：根据差异基因list获取string数据库的PPI网络数据
+- 第八讲：PPI网络数据用R或者cytoscape画网络图
+- 第九讲：网络图的子网络获取
+- 第十讲：hug genes如何找
 
 ### 2018年更新版
 
