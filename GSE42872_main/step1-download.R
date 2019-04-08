@@ -31,7 +31,7 @@ load('GSE42872_eSet.Rdata')  ## 载入数据
 class(gset)  #查看数据类型
 length(gset)  #
 class(gset[[1]])
-gset
+#gset
 # assayData:  33297 features, 6 samples
 
 # 因为这个GEO数据集只有一个GPL平台，所以下载到的是一个含有一个元素的list
@@ -44,36 +44,53 @@ boxplot(dat,las=2)
 pd=pData(a) #通过查看说明书知道取对象a里的临床信息用pData
 ## 挑选一些感兴趣的临床表型。
 library(stringr)
-group_list=str_split(pd$title,' ',simplify = T)[,4]
+group_list=str_split(pd$title,' ',simplify = T)[,4] #注意simplify	
+#simplify If FALSE, the default, returns a list of character vectors. If TRUE returns a character matrix.
+#只有矩阵才有列可选[,4]
+
 table(group_list)
 
 dat[1:4,1:4] 
 
 # GPL6244
-
+###https://www.jianshu.com/p/f6906ba703a0  用R获取芯片探针与基因的对应关系三部曲
+###gpl 注释文件处理################
+###########method 1 ：单独下载GPL，获取ID与genesymbol的对应关系
 if(F){
   library(GEOquery)
   #Download GPL file, put it in the current directory, and load it:
   gpl <- getGEO('GPL6244', destdir=".")
   colnames(Table(gpl))  
-  head(Table(gpl)[,c(1,15)]) ## you need to check this , which column do you need
-  probe2gene=Table(gpl)[,c(1,15)]
+  head(Table(gpl)[,c(1,10)]) ## you need to check this , which column do you need
+  probe2gene_assigment=Table(gpl)[,c(1,10)]
+  
+  # library(stringr)  
+  gene_name <- str_split(probe2gene_assigment$gene_assignment,'//',simplify = T)[,2] #对第十列进行分割，取基因
+  probe2gene<- data.frame(ID =Table(gpl)[,1],gene=gene_name )
+  write.csv(probe2gene,file = "GPL6244_probe2gene.csv")
+  
   head(probe2gene)
-  library(stringr)  
+ 
   save(probe2gene,file='probe2gene.Rdata')
 }
-# 
+
 # load(file='probe2gene.Rdata')
 # ids=probe2gene 
 
+##########method 2 :找到GPL对应的R包（注意末尾加".db"），
+if(!require("hugene10sttranscriptcluster.db")) BiocManager::install("hugene10sttranscriptcluster.db",ask = F,update = F)
+
 library(hugene10sttranscriptcluster.db)
 ids=toTable(hugene10sttranscriptclusterSYMBOL) #toTable这个函数：通过看hgu133plus2.db这个包的说明书知道提取probe_id（探针名）和symbol（基因名）的对应关系的表达矩阵的函数为toTable
+###ids 就是probe2symbol_df
 head(ids) #head为查看前六行
 
-head(ids)
-colnames(ids)=c('probe_id','symbol')  
-ids=ids[ids$symbol != '',]
+dim(ids)
+#colnames(ids)=c('probe_id','symbol')  #不需要
+ids=ids[ids$symbol != '',]  
+dim(ids)
 ids=ids[ids$probe_id %in%  rownames(dat),]
+dim(ids)
 
 dat[1:4,1:4]   
 dat=dat[ids$probe_id,] 
@@ -85,9 +102,29 @@ dat=dat[ids$probe_id,] #新的ids取出probe_id这一列，将dat按照取出的
 rownames(dat)=ids$symbol#把ids的symbol这一列中的每一行给dat作为dat的行名
 dat[1:4,1:4]  #保留每个基因ID第一次出现的信息
 
+######抽取相同name 中ID 值最大的数据 示例 ,前提是降序排列 ，同抽取相同gene_symbol（不同probe对应）的最大表达值#######
+
+# > stu<- data.frame(Name=c("De","Ed","Ed","Wenli"),ID=c(11,18,17,13))
+# > stu
+# Name ID
+# 1    De 11
+# 2    Ed 18
+# 3    Ed 17
+# 4 Wenli 13
+# > stu[!duplicated(stu$Name)]
+# Error in `[.data.frame`(stu, !duplicated(stu$Name)) : 
+#   undefined columns selected
+# > stu[!duplicated(stu$Name),]
+# Name ID
+# 1    De 11
+# 2    Ed 18
+# 4 Wenli 13
+
+####################
+
+
 
 save(dat,group_list,file = 'step1-output.Rdata')
 
 
 
- 

@@ -1,13 +1,11 @@
 ## 
 ### ---------------
-###
-### Create: Jianming Zeng
-### Date: 2018-12-20 15:43:52
-### Email: jmzeng1314@163.com
-### Blog: http://www.bio-info-trainee.com/
-### Forum:  http://www.biotrainee.com/thread-1376-1-1.html
-### CAFS/SUSTC/Eli Lilly/University of Macau
-### Update Log: 2018-12-20  First version
+###########################################################################################
+#OrgDb 是 Bioconductor 中存储不同数据库基因ID之间对应关系，以及基因与GO等注释的对应关系的 R 软件包。
+#支持19个物种，可以到这里查询：
+#http://bioconductor.org/packages/release/BiocViews.html#___OrgDb
+#不支持的物种可以通过 AnnotationForge 自己构建。
+################################################
 ###
 ### ---------------
 
@@ -16,20 +14,20 @@ rm(list = ls())  ## 魔幻操作，一键清空~
 load(file = 'deg.Rdata')
 head(deg)
 ## 不同的阈值，筛选到的差异基因数量就不一样，后面的超几何分布检验结果就大相径庭。
-logFC_t=1.5
+logFC_t=2
 deg$g=ifelse(deg$P.Value>0.05,'stable',
-            ifelse( deg$logFC > logFC_t,'UP',
-                    ifelse( deg$logFC < -logFC_t,'DOWN','stable') )
+             ifelse( deg$logFC > logFC_t,'UP',
+                     ifelse( deg$logFC < -logFC_t,'DOWN','stable') )
 )
 table(deg$g)
 head(deg)
 deg$symbol=rownames(deg)
 library(ggplot2)
 library(clusterProfiler)
-library(org.Hs.eg.db)
+library(hugene10sttranscriptcluster.db)  
 df <- bitr(unique(deg$symbol), fromType = "SYMBOL",
            toType = c( "ENTREZID"),
-           OrgDb = org.Hs.eg.db)
+           OrgDb = hugene10sttranscriptcluster.db) #一定要实用对应的OrgDb
 head(df)
 DEG=deg
 head(DEG)
@@ -116,13 +114,13 @@ if(T){
               gene_down=gene_down,
               gene_diff=gene_diff)
   
-  if(F){
+  if(T){
     go_enrich_results <- lapply( g_list , function(gene) {
       lapply( c('BP','MF','CC') , function(ont) {
         cat(paste('Now process ',ont ))
         ego <- enrichGO(gene          = gene,
                         universe      = gene_all,
-                        OrgDb         = org.Hs.eg.db,
+                        OrgDb         = hugene10sttranscriptcluster.db, #对应的hugene10sttranscriptcluster.db
                         ont           = ont ,
                         pAdjustMethod = "BH",
                         pvalueCutoff  = 0.99,
@@ -154,4 +152,13 @@ if(T){
   
   
 }
+
+
+###< Problem left behind >-
+##### 1, how to merge two datafame
+#####2,kegg,go 超几何检验后的可视化的生物学意义
+#####3,R 手卡
+
+
+
 
